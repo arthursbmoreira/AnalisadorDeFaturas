@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<f:metadata>
+            <f:event type="preRenderView" listener="#{contatoBean.initialize()}"></f:event>
+        </f:metadata>
+		<h3>Contato</h3>
+		<h4>Utilize esta seção para entrar em contato conosco caso possua sugestões, dúvidas ou problemas.</h4>
+		<h:form class="form-horizontal">
+			<p:growl severity="info" showDetail="true" autoUpdate="true" />
+			<p:messages severity="error" showSummary="true" closable="true" autoUpdate="true" />
+			
+			<div class="row">
+				<div class="col-sm-7">
+					<fieldset>
+						<div class="form-group primeiro-grupo">
+				    		<p:outputLabel value="Nome:" class="control-label col-md-4" />
+					    	<div class="col-md-6">
+								<p:inputText value="#{contatoBean.nome}"
+									required="true"
+									requiredMessage="Preencha o campo nome."
+									class="form-control" />
+							</div>
+				    	</div>
+				    	<div class="form-group">
+				    		<p:outputLabel value="Email:" class="control-label col-md-4" />
+					    	<div class="col-md-6">
+								<p:inputText value="#{contatoBean.email}" required="true"
+									requiredMessage="Preencha o campo email."
+									validatorMessage="Formato de email inválido."
+									class="form-control">
+									<f:validateRegex
+										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</p:inputText>
+							</div>
+				    	</div>
+					    <div class="form-group">
+				    		<p:outputLabel value="Assunto:" class="control-label col-md-4" />
+				    		<div class="col-md-6">
+								<p:inputText value="#{contatoBean.assunto}"
+									required="true" requiredMessage="Preencha o campo assunto."
+									class="form-control" />
+							</div>
+					    </div>
+					    <div class="form-group">
+				    		<p:outputLabel value="Mensagem:" class="control-label col-md-4" />
+				    		<div class="col-md-8">
+								<p:inputTextarea value="#{contatoBean.mensagem}"
+									rows="6" autoResize="false" required="true"
+									requiredMessage="Preencha o campo mensagem."
+									class="form-control" />
+							</div>
+				    	</div>
+			    	</fieldset>
+			    	<div class="form-actions form-horizontal well">
+						<div class="col-sm-offset-4">
+					 		<p:commandButton value="Enviar" action="#{contatoBean.enviarEmail}" />
+					 	</div>
+			 		</div>
+	    		</div>
+	    	</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

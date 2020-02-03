@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="faturas">
+			<div class="col-md-12">
+				<h3>Faturas com erro</h3>
+				
+				<h4>
+					<p:outputLabel value="Não foram encontrados erros em nenhuma das faturas. Existe a possibilidade de cobrança indevida ou algum erro de análise de nossa parte. Entre em contato conosco para que possamos verificar o ocorrido."
+			 			style="color: red;" rendered="#{faturasBean.loaderBean.listaFaturasComErro.size() == 0}" />
+		 		</h4>
+		 		
+		 		<div class="row">
+					<div class="col-md-2">
+						<p:dataTable id="numeros" var="fatura" value="#{faturasBean.loaderBean.listaFaturasComErro}" scrollable="true" scrollHeight="300"
+			    			rowKey="#{fatura.linha.numero}" selectionMode="single" selection="#{faturasBean.fatura}" emptyMessage="Selecione uma fatura para análise."
+							style="width: 130px;position: absolute;top: 98px;" rendered="#{faturasBean.loaderBean.listaFaturasComErro.size() > 0}">
+							<p:ajax event="rowSelect" update=":faturas" />
+			
+							<p:column headerText="Numeros:" class="small">
+								#{fatura.linha.numero}
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+				
+				<div class="col-md-7">
+					<p:accordionPanel activeIndex="0,3" multiple="true" style="width: 600px;position: absolute;top: 98px;left: 152px;margin-bottom: 80px;"
+						rendered="#{faturasBean.loaderBean.listaFaturasComErro.size() > 0}">
+				        <p:tab title="Ligações:" >
+				        	<small>
+				            <h:panelGrid columns="2" style="float: left;">
+				            	<p:outputLabel value="Tempo de ligações:" rendered="#{faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoLigacoesPersonalizadas}" title="minutos/segundos" rendered="#{faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="Tempo excedente:" rendered="#{faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoExcedenteLigacoesPersonalizadas}" title="minutos/segundos" rendered="#{faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="Custo:" rendered="#{faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.custoLigacoesPersonalizadas}" rendered="#{faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Ligações locais:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoLigacoesLocais}" title="minutos/segundos" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="Custo:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.custoLigacoesLocais}" rendered="#{!faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Ligações recebidas a cobrar:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoLigacoesRecebidasACobrar}" title="minutos/segundos" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="Custo:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.custoLigacoesRecebidasACobrar}" rendered="#{!faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Acesso a caixa postal:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoCaixaPostal}" title="minutos/segundos" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="Custo:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.custoCaixaPostal}" rendered="#{!faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Ligações recebidas em roaming:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoLigacoesEmRoaming}" title="minutos/segundos" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="Custo:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.custoLigacoesEmRoaming}" rendered="#{!faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Adicional por ligações:" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.adicionalPorLigacoes}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+							</h:panelGrid>
+							</small>
+							<small>
+							<h:panelGrid columns="2" style="float: right;">
+								<p:outputLabel value="Ligações Intragrupo:" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoLigacoesIntragrupo}" title="minutos/segundos" />
+								
+								<p:outputLabel value="Ligações interurbanas:" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoLigacoesInterurbanas}" title="minutos/segundos" />
+								<p:outputLabel value="Custo:" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.custoLigacoesInterurbanas}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+							
+								<p:outputLabel value="Ligações para/no exterior:" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoLigacoesNoExterior}" title="minutos/segundos" />
+								<p:outputLabel value="Custo:" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.custoLigacoesNoExterior}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Ligações p/ serviços de terceiros:" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.tempoLigacoesServicosTerceiros}" title="minutos/segundos" />
+								<p:outputLabel value="Custo:" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.custoLigacoesServicosTerceiros}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Ligações p/ loja de serviços Vivo:" title="Quantidade" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.totalLojaDeServicosVivo}" />
+								<p:outputLabel value="Custo:" />
+								<p:outputLabel value="#{faturasBean.fatura.ligacoes.custoLojaDeServicosVivo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+				            </h:panelGrid>
+				            </small>
+				        </p:tab>
+				        <p:tab title="Mensagens:">
+			        		<small>
+				            <h:panelGrid columns="2">
+								<p:outputLabel value="Enviadas:" />
+								<p:outputLabel value="#{faturasBean.fatura.mensagens.totalMensagensNormaisEnviadas} mensagens" />
+								<p:outputLabel value="Custo:" />
+								<p:outputLabel value="#{faturasBean.fatura.mensagens.custoMensagensNormaisEnviadas}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								<p:outputLabel value="Enviadas pelo plano:" />
+								<p:outputLabel value="#{faturasBean.fatura.mensagens.totalMensagensPlanoEnviadas} mensagens" />
+								<p:outputLabel value="Fotos torpedo enviados:" />
+								<p:outputLabel value="#{faturasBean.fatura.mensagens.totalFotosTorpedoEnviados} mensagens" />
+								<p:outputLabel value="Custo:" />
+								<p:outputLabel value="#{faturasBean.fatura.mensagens.custoFotoTorpedosEnviados}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								<p:outputLabel value="Enviadas para outros serviços:" />
+								<p:outputLabel value="#{faturasBean.fatura.mensagens.totalMensagensOutrosServicosEnviadas} mensagens" />
+								<p:outputLabel value="Custo:" />
+								<p:outputLabel value="#{faturasBean.fatura.mensagens.custoMensagensOutrosServicosEnviadas}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+				            </h:panelGrid>
+				            </small>
+				        </p:tab>
+				        <p:tab title="Internet:">
+				        	<small>
+				            <h:panelGrid columns="2">
+								<p:outputLabel value="Uso de internet:" />
+								<p:outputLabel value="#{faturasBean.fatura.internet.totalUsoDeInternet}" />
+								<p:outputLabel value="Custo:" />
+								<p:outputLabel value="#{faturasBean.fatura.internet.custoUsoDeIternet}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+				            </h:panelGrid>
+				            </small>
+				        </p:tab>
+				        <p:tab title="Total:">
+				        	<small>
+				            <h:panelGrid columns="2">
+				            	<p:outputLabel value="Valor base:" rendered="#{faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.loginBean.config.valorBase}" rendered="#{faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Serviços contratados:" />
+								<p:outputLabel value="#{faturasBean.fatura.custoServicosContratados}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Descontos:" />
+								<p:outputLabel value="#{faturasBean.fatura.descontos}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Total cobrado na fatura:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.custoTotalFatura}" rendered="#{!faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Total:" rendered="#{faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.custoTotalFaturaPersonalizada}" rendered="#{faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Total com descontos:" rendered="#{!faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.custoTotalFaturaComDesconto}" rendered="#{!faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+								
+								<p:outputLabel value="Total com descontos:" rendered="#{faturasBean.loginBean.config.ativo}" />
+								<p:outputLabel value="#{faturasBean.fatura.custoTotalFaturaComDescontoPersonalizada}" rendered="#{faturasBean.loginBean.config.ativo}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</p:outputLabel>
+				            </h:panelGrid>
+				            </small>
+				        </p:tab>
+		    		</p:accordionPanel>
+	    		</div>
+			
+				<p:dialog header="Cadastro" widgetVar="cadastro" resizable="false" modal="true" showEffect="fade" hideEffect="fade" closeOnEscape="true">
+				
+			    	<div id="container">
+			    		<div class="linha">
+					    	<div class="label">
+					    		<p:outputLabel value="Responsável:" />
+					    	</div>
+					    	<div class="campo">
+						    	<p:inputText value="#{faturasBean.fatura.linha.responsavel}" />
+						    </div>
+					    </div>
+			    	</div>
+			    	
+			    	<div class="botoesDialog">
+				    	<p:commandButton value="Enviar" action="#{faturasBean.cadastrarResponsavel}" onclick="PF('cadastro').hide();" update=":faturas" />
+				    	<p:commandButton value="Cancelar" onclick="PF('cadastro').hide();" />
+				    </div>
+				</p:dialog>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

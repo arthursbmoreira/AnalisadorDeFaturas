@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="corpo">
+		<div>
+			<h:form>
+				<h3>Gerador de Planilhas</h3>
+				
+				<div class="row">
+					<div class="col-sm-10">
+						<fieldset>
+							<legend>Selecione os itens a serem incluídos na planilha</legend>
+							
+							<div class="row">
+								<div class="col-md-2">
+							        <div class="checkbox">
+								        <p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.numero}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+								        <h:outputText value=" Número" />
+							        </div>
+							        <div class="checkbox">
+								        <p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.responsavel}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+								        <h:outputText value=" Responsável" />
+							        </div>
+						        </div>
+						        
+						        <div class="col-md-2">
+						        	<div class="checkbox">
+								        <p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.ligacoes}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+								        <h:outputText value=" Ligações" />
+								    </div>    
+							        <div class="checkbox">
+								        <p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.mensagens}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+								        <h:outputText value=" Mensagens" />
+							        </div>
+							        <div class="checkbox">
+								        <p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.internet}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+								        <h:outputText value=" Internet" />
+							        </div>
+						        </div>
+						        
+						        <div class="col-md-3">
+							        <div class="checkbox">
+								        <p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.custoServicosContratados}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+							        	<h:outputText value=" Serviços contratados" />
+							        </div>
+							        <div class="checkbox">
+								        <p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.planos}" rendered="#{faturasBean.loginBean.config.ativo}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+								        <h:outputText value=" Planos" rendered="#{faturasBean.loginBean.config.ativo}" />
+							        </div>
+							        <div class="checkbox">
+								        <p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.descontos}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+								        <h:outputText value=" Descontos" />
+							        </div>
+							    </div>
+							    <div class="col-md-2">
+							    	<div class="checkbox">
+							        	<p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.valorBase}" rendered="#{faturasBean.loginBean.config.ativo}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+								        <h:outputText value=" Valor base" rendered="#{faturasBean.loginBean.config.ativo}" />
+							        </div>
+							        <div class="checkbox">
+								        <p:selectBooleanCheckbox value="#{planilhaXlBean.filtroPlanilhaXL.custoTotalFatura}">
+								            <p:ajax />
+								        </p:selectBooleanCheckbox>
+								        <h:outputText value=" Total da fatura" />
+							        </div>
+							    </div>
+						    </div>
+					    </fieldset>
+				    </div>
+			    </div>
+
+			    <div class="row">
+					<div class="col-md-10">
+						<p:dataTable id="tbl" var="fatura" rows="8" paginator="true" emptyMessage="Selecione uma fatura para análise."
+							paginatorPosition="top" scrollable="true" value="#{loaderBean.listaFaturas}" scrollWidth="863"
+							currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords}"
+							filteredValue="#{planilhaXlBean.faturasFiltradas}" widgetVar="tblFaturas"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Pesquisa}">
+							
+							<f:facet name="{Pesquisa}">
+					            <p:outputPanel>
+					                <h:outputText value="Pesquisar: " />
+					                <p:inputText id="globalFilter" onkeyup="PF('tblFaturas').filter()" style="width:150px" />
+					            </p:outputPanel>
+				       		 </f:facet>
+        		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.numero}" sortBy="#{fatura.linha.numero}" style="width: 150px;"
+								filterBy="#{fatura.linha.numero}" filterMatchMode="contains" filterStyle="display:none">
+								<f:facet name="header">
+									<h:outputText value="Número" />
+								</f:facet>
+								<h:outputText value="#{fatura.linha.numero}" />
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.responsavel}" sortBy="#{fatura.linha.responsavel}" style="width: 200px;"
+								filterBy="#{fatura.linha.responsavel}" filterMatchMode="contains" filterStyle="display:none">
+								<f:facet name="header">
+									<h:outputText value="Responsável" />
+								</f:facet>
+								<h:outputText value="#{fatura.linha.responsavel}" />
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.ligacoes}" rendered="#{!faturasBean.loginBean.config.ativo}" style="width: 250px;">
+								<f:facet name="header">
+									<h:outputText value="Tempo Ligações" />
+								</f:facet>
+								<h:outputText value="#{fatura.ligacoes.tempoLigacoes}" />
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.ligacoes}" sortBy="#{fatura.ligacoes.custoLigacoes}" style="width: 250px;"
+								rendered="#{!faturasBean.loginBean.config.ativo}">
+								<f:facet name="header">
+									<h:outputText value="Custo Ligações" />
+								</f:facet>
+								<h:outputText value="#{fatura.ligacoes.custoLigacoes}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.ligacoes}" rendered="#{faturasBean.loginBean.config.ativo}" style="width: 150px;">
+								<f:facet name="header">
+									<h:outputText value="Tempo Ligações" />
+								</f:facet>
+								<h:outputText value="#{fatura.ligacoes.tempoLigacoesPersonalizadas}" />
+							</p:column>
+							
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.ligacoes}" rendered="#{faturasBean.loginBean.config.ativo}" style="width: 100px;">
+								<f:facet name="header">
+									<h:outputText value="Excedente" />
+								</f:facet>
+								<h:outputText value="#{fatura.ligacoes.tempoExcedenteLigacoesPersonalizadas}" />
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.ligacoes}" sortBy="#{fatura.ligacoes.custoLigacoesPersonalizadas}" style="width: 170px;"
+								rendered="#{faturasBean.loginBean.config.ativo}">
+								<f:facet name="header">
+									<h:outputText value="Custo Ligações" />
+								</f:facet>
+								<h:outputText value="#{fatura.ligacoes.custoLigacoesPersonalizadas}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.ligacoes}" sortBy="#{fatura.ligacoes.custoLigacoesNaoIncluidas}" style="width: 170px;"
+								rendered="#{faturasBean.loginBean.config.ativo}">
+								<f:facet name="header">
+									<h:outputText value="Não incluidas" />
+								</f:facet>
+								<h:outputText value="#{fatura.ligacoes.custoLigacoesNaoIncluidas}" title="Ligações interurbanos, internacionais, para servições de terceiros e loja de serviços.">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.ligacoes}" sortBy="#{fatura.ligacoes.adicionalPorLigacoes}" style="width: 200px;">
+								<f:facet name="header">
+									<h:outputText value="Adicional Ligações" />
+								</f:facet>
+								<h:outputText value="#{fatura.ligacoes.adicionalPorLigacoes}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.mensagens}" sortBy="#{fatura.mensagens.totalMensagens}" style="width: 210px;">
+								<f:facet name="header">
+									<h:outputText value="Mensagens Enviadas" />
+								</f:facet>
+								<h:outputText value="#{fatura.mensagens.totalMensagens}" />
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.mensagens}" sortBy="#{fatura.mensagens.custoMensagens}" style="width: 200px;">
+								<f:facet name="header">
+									<h:outputText value="Custo Mensagens" />
+								</f:facet>
+								<h:outputText value="#{fatura.mensagens.custoMensagens}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.internet}" style="width: 150px;">
+								<f:facet name="header">
+									<h:outputText value="Uso Internet" />
+								</f:facet>
+								<h:outputText value="#{fatura.internet.totalUsoDeInternet}" />
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.internet}" sortBy="#{fatura.internet.custoUsoDeIternet}" style="width: 160px;">
+								<f:facet name="header">
+									<h:outputText value="Custo Internet" />
+								</f:facet>
+								<h:outputText value="#{fatura.internet.custoUsoDeIternet}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.custoServicosContratados}" sortBy="#{fatura.custoServicosContratados}" style="width: 230px;">
+								<f:facet name="header">
+									<h:outputText value="Serviços Contratados" />
+								</f:facet>
+								<h:outputText value="#{fatura.custoServicosContratados}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.planos}" sortBy="#{fatura.custoTotalPlanos}" rendered="#{faturasBean.loginBean.config.ativo}"
+								style="width: 120px;">
+								<f:facet name="header">
+									<h:outputText value="Planos" />
+								</f:facet>
+								<h:outputText value="#{fatura.custoTotalPlanos}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.descontos}" sortBy="#{fatura.descontos}" style="width: 150px;">
+								<f:facet name="header">
+									<h:outputText value="Descontos" />
+								</f:facet>
+								<h:outputText value="#{fatura.descontos}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+		
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.custoTotalFatura}" sortBy="#{fatura.custoTotalFatura}" style="width: 150px;"
+								rendered="#{!faturasBean.loginBean.config.ativo}">
+								<f:facet name="header">
+									<h:outputText value="Total Faturas" />
+								</f:facet>
+								<h:outputText value="#{fatura.custoTotalFatura}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.descontos}" sortBy="#{fatura.custoTotalFaturaComDesconto}" style="width: 180px;"
+								rendered="#{!faturasBean.loginBean.config.ativo}">
+								<f:facet name="header">
+									<h:outputText value="Com descontos" />
+								</f:facet>
+								<h:outputText value="#{fatura.custoTotalFaturaComDesconto}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.valorBase}" sortBy="#{fatura.valorBase}" style="width: 150px;"
+								rendered="#{faturasBean.loginBean.config.ativo}">
+								<f:facet name="header">
+									<h:outputText value="Valor base" />
+								</f:facet>
+								<h:outputText value="#{fatura.valorBase}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.custoTotalFatura}" sortBy="#{fatura.custoTotalFaturaPersonalizada}" style="width: 150px;"
+								rendered="#{faturasBean.loginBean.config.ativo}">
+								<f:facet name="header">
+									<h:outputText value="Total Faturas" />
+								</f:facet>
+								<h:outputText value="#{fatura.custoTotalFaturaPersonalizada}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column exportable="#{planilhaXlBean.filtroPlanilhaXL.descontos}" sortBy="#{fatura.custoTotalFaturaComDescontoPersonalizada}" style="width: 180px;"
+								rendered="#{faturasBean.loginBean.config.ativo}">
+								<f:facet name="header">
+									<h:outputText value="Com descontos" />
+								</f:facet>
+								<h:outputText value="#{fatura.custoTotalFaturaComDescontoPersonalizada}">
+									<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+				
+				<div>
+					<h:commandLink class="btn btn-default">
+						<p:graphicImage library="imagens" name="excel.png" width="24" />
+						<p:dataExporter type="xls" target="tbl" fileName="Planilha" postProcessor="#{planilhaXlBean.postProcessXLS}" encoding="UTF-8" />
+						<p:outputLabel>Gerar planilha</p:outputLabel>
+					</h:commandLink>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

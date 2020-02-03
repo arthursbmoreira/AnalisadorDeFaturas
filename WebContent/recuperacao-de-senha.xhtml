@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<f:metadata>
+			<f:event type="preRenderView" listener="#{recuperaSenhaBean.initialize()}"></f:event>
+		</f:metadata>
+		<h3>Recuperação de senha</h3>
+		<h:form>
+			<p:messages id="info" severity="info" closable="true" showDetail="true" showSummary="true" />
+			<p:messages id="erros" severity="error" closable="true" showSummary="true" />
+			
+			<div class="row">
+				<div class="col-sm-7">
+					<fieldset>
+						<legend>Preencha os campos abaixo para alterar sua senha</legend>
+
+						<div class="form-group primeiro-grupo">
+							<p:outputLabel value="Email:" class="control-label col-md-4" />
+							<div class="col-md-6">
+								<p:inputText value="#{recuperaSenhaBean.cliente.eMail}"
+									disabled="true"
+									required="true"
+									requiredMessage="Preencha o campo email." class="form-control" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<p:outputLabel value="Senha atual:"
+								class="control-label col-md-4" />
+							<div class="col-md-6">
+								<p:password
+									value="#{recuperaSenhaBean.cliente.senhaTemporaria}"
+									required="true"
+									requiredMessage="Preencha o campo senha atual."
+									class="form-control" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<p:outputLabel value="Nova senha:"
+								class="control-label col-md-4" />
+							<div class="col-md-6">
+								<p:password value="#{recuperaSenhaBean.cliente.senha}"
+									required="true"
+									requiredMessage="Preencha o campo nova senha."
+									class="form-control" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<p:outputLabel value="Confirme a nova senha:"
+								class="control-label col-md-4" />
+							<div class="col-md-6">
+								<p:password value="#{recuperaSenhaBean.confirmaSenha}"
+									required="true"
+									requiredMessage="Preencha o campo confirme a nova senha."
+									class="form-control" />
+							</div>
+						</div>
+					</fieldset>
+					<div class="form-actions form-horizontal well">
+						<div class="col-sm-offset-4">
+							<p:commandButton value="Alterar" action="#{recuperaSenhaBean.alterarSenha}" update="erros, info" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

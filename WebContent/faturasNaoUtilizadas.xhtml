@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="faturasNaoUtilizadas" class="form-horizontal">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Faturas não utilizadas</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">
+						<p:dataTable id="numeros" var="fatura" value="#{faturasBean.loaderBean.listaFaturasNumerosNaoUtilizados}"
+							scrollable="true" scrollHeight="300" rowKey="#{fatura.linha.numero}" selectionMode="single"
+							selection="#{faturasBean.fatura}" emptyMessage="Selecione uma fatura para análise.">
+							<p:ajax event="rowSelect" update=":faturasNaoUtilizadas" async="false" />
+							<p:column headerText="Numeros:" class="small">
+								#{fatura.linha.numero}
+							</p:column>
+						</p:dataTable>
+					</div>
+					<div class="col-md-7">
+						<p:accordionPanel activeIndex="0">
+							<p:tab title="Total:">
+								<small>
+								<h:panelGrid columns="2">
+									<p:outputLabel value="Serviços contratados:" />
+									<p:outputLabel value="#{faturasBean.fatura.custoServicosContratados}">
+										<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+									</p:outputLabel>
+									<p:outputLabel value="Total cobrado na fatura:" />
+									<p:outputLabel value="#{faturasBean.fatura.custoTotalFatura}">
+										<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+									</p:outputLabel>
+									<p:outputLabel value="Descontos:" />
+									<p:outputLabel value="#{faturasBean.fatura.descontos}">
+										<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+									</p:outputLabel>
+									<p:outputLabel value="Total:" />
+									<p:outputLabel value="#{faturasBean.fatura.custoTotalFaturaComDesconto}">
+										<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+									</p:outputLabel>
+								</h:panelGrid>
+								</small>
+								<p:commandLink value="Cadastrar responsável" onclick="PF('cadastro').show();" rendered="#{faturasBean.fatura.linha ne null}" />
+							</p:tab>
+						</p:accordionPanel>
+					</div>
+				</div>
+
+				<p:dialog showHeader="false" widgetVar="cadastro" resizable="false" width="450" modal="true" showEffect="fade" hideEffect="fade" closeOnEscape="true">
+					<div id="row">
+						<div class="col-sm-12">
+							<fieldset>
+								<legend>Cadastrar responsável</legend>
+								
+								<div class="form-group primeiro-grupo">
+									<p:outputLabel value="Responsável:" class="control-label col-md-4" />
+		
+									<div class="col-md-8">
+										<p:inputText value="#{faturasBean.fatura.linha.responsavel}" class="form-control" />
+									</div>
+								</div>
+							</fieldset>
+							<div class="form-actions form-horizontal well">
+								<div class="col-sm-offset-4">
+									<p:commandButton value="Cadastrar" action="#{faturasBean.cadastrarResponsavelLinhaSemUso}"	onclick="PF('cadastro').hide();" update="faturasNaoUtilizadas" />
+									<p:commandButton value="Cancelar" onclick="PF('cadastro').hide();" />
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</p:dialog>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

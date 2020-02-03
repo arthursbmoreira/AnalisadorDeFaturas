@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<h3>Cadastrar planos</h3>
+		<p:growl severity="info" showDetail="true" autoUpdate="true" />
+		<p:messages severity="error" showDetail="true" showSummary="false"
+			closable="true" autoUpdate="true" />
+
+		<div class="row">
+			<div class="col-sm-7">
+				<p:tabView id="tab">
+					<p:tab title="Cadastrar planos">
+						<h:form id="formPlanoCadastro" class="form-horizontal">
+							<div class="row">
+								<div class="col-sm-12">
+									<fieldset>
+										<legend>Cadastre planos para associá-los à suas
+											linhas</legend>
+
+										<div class="form-group primeiro-grupo">
+											<p:outputLabel value="Plano:" class="control-label col-md-4" />
+											<div class="col-sm-6">
+												<p:inputText value="#{planosBean.plano.nome}" class="form-control" />
+											</div>
+										</div>
+
+										<div class="form-group">
+											<p:outputLabel value="Valor:" class="control-label col-md-4" />
+											<div class="col-sm-6">
+												<p:inputText value="#{planosBean.plano.valor}" class="form-control">
+													<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+												</p:inputText>
+											</div>
+										</div>
+									</fieldset>
+									<div class="form-actions form-horizontal well">
+										<div class="col-sm-offset-4">
+											<p:commandButton value="Salvar"
+												action="#{planosBean.salvarPlano}"
+												update=":tab:formPlanoCadastro, :tab:formTabelaPlanos:tabela,
+													 :tab:formPlanosParaAssociacao:planosParaAssociacao" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</h:form>
+						<h:form id="formTabelaPlanos" class="form-horizontal">
+							<div class="row">
+								<div class="col-sm-12">
+									<p:dataTable id="tabela" var="plano"
+										value="#{planosBean.listaPlanos}" rows="5" paginator="true"
+										paginatorPosition="top"
+										emptyMessage="Nenhum plano cadastrado."
+										paginatorAlwaysVisible="false"
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+										<p:column headerText="Plano">
+											<p:outputLabel value="#{plano.nome}" />
+										</p:column>
+										<p:column headerText="Valor">
+											<p:outputLabel value="#{plano.valor}">
+												<f:convertNumber type="currency" />
+											</p:outputLabel>
+										</p:column>
+										<p:column style="width: 55px;">
+											<p:commandButton action="#{planosBean.removerPlano(plano)}"
+												icon="ui-icon-trash" title="Remover"
+												update=":tab:formTabelaPlanos:tabela, :tab:formPlanosParaAssociacao:planosParaAssociacao" />
+										</p:column>
+									</p:dataTable>
+								</div>
+							</div>
+						</h:form>
+					</p:tab>
+
+					<p:tab title="Associar planos">
+						<h:form id="formPlanosParaAssociacao" class="form-horizontal">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="row">
+										<fieldset>
+											<legend>Associe planos à suas linhas</legend>
+											<div class="col-sm-6">
+												<p:selectOneMenu id="planosParaAssociacao"
+													value="#{planosBean.planoAssociacao}">
+													<f:selectItem itemLabel="Selecione um plano" itemValue="" />
+													<f:selectItems value="#{planosBean.listaPlanos}"
+														var="plano" itemLabel="#{plano.nome}" itemValue="#{plano}" />
+												</p:selectOneMenu>
+											</div>
+											<div class="col-sm-6">
+												<p:selectOneMenu value="#{planosBean.linhaAssociacao}">
+													<f:selectItem itemLabel="Selecione uma linha" itemValue="" />
+													<f:selectItems
+														value="#{planosBean.loaderBean.listaFaturas}" var="fatura"
+														itemLabel="#{fatura.linha.numero}"
+														itemValue="#{fatura.linha}" />
+												</p:selectOneMenu>
+											</div>
+										</fieldset>
+									</div>
+									<div class="row">
+										<div class="form-actions form-horizontal well">
+											<div class="col-sm-offset-4">
+												<p:commandButton value="Associar"
+													action="#{planosBean.associarPlano}"
+													update=":tab:formTabelaPlanosAssociados:tabelaAssociacoes" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</h:form>
+						<h:form id="formTabelaPlanosAssociados" class="form-horizontal">
+							<div class="row">
+								<div class="col-sm-12">
+									<p:dataTable id="tabelaAssociacoes" var="fatura"
+										value="#{planosBean.loaderBean.listaFaturas}" rows="5"
+										paginator="true" paginatorPosition="top"
+										emptyMessage="Nenhum plano cadastrado."
+										paginatorAlwaysVisible="false"
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+										<p:column headerText="Numero">
+											<p:outputLabel value="#{fatura.linha.numero}" />
+										</p:column>
+										<p:column headerText="Plano">
+											<p:selectOneMenu value="#{planosBean.planoDesassociacao}">
+												<f:selectItem itemLabel="Planos associados" itemValue="" />
+												<f:selectItems value="#{fatura.linha.listaPlanos}"
+													var="plano" itemLabel="#{plano.nome}" itemValue="#{plano}" />
+												<f:ajax event="change"
+													listener="#{planosBean.setarPlanoDessasociacao}" />
+											</p:selectOneMenu>
+										</p:column>
+										<p:column style="width: 55px;">
+											<p:commandButton action="#{planosBean.removerAssociacao(fatura)}"
+												icon="ui-icon-trash" title="Remover"
+												update=":tab:formTabelaPlanosAssociados" />
+										</p:column>
+									</p:dataTable>
+								</div>
+							</div>
+						</h:form>
+					</p:tab>
+
+					<p:tab title="Substituição de valores">
+						<h:form id="formSubstituicao" class="form-horizontal">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="row">
+										<fieldset>
+											<legend>Defina valores substituir planos específicos</legend>
+
+											<div class="form-group primeiro-grupo">
+												<p:outputLabel value="Plano:" class="control-label col-md-4" />
+												<div class="col-sm-6">
+													<p:inputText value="#{planosBean.planoSubstituicao.nome}" class="form-control" />
+												</div>
+											</div>
+
+											<div class="form-group">
+												<p:outputLabel value="Valor:" class="control-label col-md-4" />
+												<div class="col-sm-6">
+													<p:inputText value="#{planosBean.planoSubstituicao.valor}" class="form-control">
+														<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+													</p:inputText>
+												</div>
+											</div>
+										</fieldset>
+										<div class="form-actions form-horizontal well">
+											<div class="col-sm-offset-4">
+												<p:commandButton value="Salvar"
+													action="#{planosBean.salvarPlanoSubstituicao}"
+													update="@form" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<p:dataTable id="tabela" var="plano"
+										value="#{planosBean.listaPlanosSubstituicao}" rows="5"
+										paginator="true" paginatorPosition="top"
+										emptyMessage="Nenhum plano cadastrado."
+										paginatorAlwaysVisible="false"
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+										<p:column headerText="Plano">
+											<p:outputLabel value="#{plano.nome}" />
+										</p:column>
+										<p:column headerText="Valor">
+											<p:outputLabel value="#{plano.valor}">
+												<f:convertNumber type="currency" />
+											</p:outputLabel>
+										</p:column>
+										<p:column style="width: 55px;">
+											<p:commandButton action="#{planosBean.removerPlanoSubstituicao(plano)}"
+												icon="ui-icon-trash" title="Remover"
+												process="@this" update="@form" />
+										</p:column>
+									</p:dataTable>
+								</div>
+							</div>
+						</h:form>
+					</p:tab>
+				</p:tabView>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

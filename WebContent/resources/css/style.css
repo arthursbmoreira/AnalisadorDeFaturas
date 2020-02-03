@@ -1,0 +1,92 @@
+.menuItem .ui-menuitem-text {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.menuItem .ui-icon {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.logo {
+	margin-right: 40px;
+}
+
+.corpo {
+	margin-bottom: 60px;
+}
+
+.form-actions {
+	margin-top: 20px;
+}
+
+.primeiro-grupo {
+	margin-top: 20px;
+}
+
+.ui-growl {
+	top: 80px !important;
+}
+
+.ui-fileupload {
+	margin-bottom: 20px;
+}
+
+.ui-datatable {
+	border: solid;
+	border-color: gray;
+    border-width: 1px;
+    padding-right: 1px;
+}
+
+fieldset {
+	margin-bottom: 20px;
+}
+
+fieldset.impressao label{
+	font-weight: 100;
+}
+
+fieldset.impressao div.col-md-3, fieldset.impressao div.col-md-6, fieldset.impressao div.col-md-8, fieldset.impressao div.col-md-9 {
+	float: left;
+}
+
+fieldset.impressao div.col-md-4 {
+	float: right;
+	padding-left: 0px;
+	padding-right: 0px;
+} 
+
+legend {
+	margin-bottom: 20px;
+}
+
+.small {
+	font-size: 14px;
+}
+
+tfoot tr td.ui-state-default {
+	padding: 1px 10px;	
+}
+
+.planos .ui-widget-content {
+	border: none;
+}
+
+.ui-selectonemenu-trigger.ui-state-default.ui-corner-right {
+	width: 24px;
+} 
+
+
+/** rodape **/
+#rodape, footer {
+	background-color: #6D85F2;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	padding: 10px 0px;
+	text-align: center;
+	font-size: 10px;
+	color: #FFF;
+	display: block;
+}

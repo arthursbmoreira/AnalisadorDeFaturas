@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<h3>Alteração de senha</h3>
+		<h:form class="form-horizontal">
+			<p:growl severity="info" showDetail="true" autoUpdate="true" />
+			<p:messages severity="error" showSummary="true" closable="true" autoUpdate="true" />
+			
+			<div class="row">
+				<div class="col-sm-7">
+					<fieldset>
+						<legend>Preencha os campos abaixo para alterar sua senha</legend>
+						
+						<div class="form-group primeiro-grupo">
+				    		<p:outputLabel value="Senha atual:" class="control-label col-md-4" />
+					    	<div class="col-md-6">
+					    		<p:password value="#{alteraSenhaBean.senhaAtual}" required="true" requiredMessage="Preencha o campo senha atual." class="form-control" />
+				    		</div>
+				    	</div>
+					    <div class="form-group">
+				    		<p:outputLabel value="Nova senha:" class="control-label col-md-4" />
+				    		<div class="col-md-6">
+					    		<p:password value="#{alteraSenhaBean.novaSenha}" required="true" requiredMessage="Preencha o campo nova senha." class="form-control" />
+				    		</div>
+					    </div>
+					    <div class="form-group">
+				    		<p:outputLabel value="Confirme a nova senha:" class="control-label col-md-4" />
+				    		<div class="col-md-6">
+					    		<p:password value="#{alteraSenhaBean.confirmaSenha}" required="true" requiredMessage="Preencha o campo confirme a nova senha." class="form-control" />
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	<div class="form-actions form-horizontal well">
+						<div class="col-sm-offset-4">
+					 		<p:commandButton value="Alterar" action="#{alteraSenhaBean.alterarSenha}" />
+					 	</div>
+			 		</div>
+	    		</div>
+	    	</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

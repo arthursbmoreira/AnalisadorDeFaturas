@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<f:metadata>
+            <f:event type="preRenderView" listener="#{empresaBean.initialize()}"></f:event>
+        </f:metadata>
+	
+		<h3>Dados gerais</h3>
+		<h5><h:outputLabel value="Empresa: #{empresaBean.loginBean.cliente.nome}" /></h5>
+		<h5><h:outputLabel value="Arquivo: #{loaderBean.nomeArquivo}" /></h5>
+		<p:messages severity="error" closable="false" showDetail="true" autoUpdate="true" showIcon="false" />
+		
+		<div class="row">
+			<div class="col-md-4">
+				<fieldset>
+					<legend>Geral:</legend>
+					<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Linhas utilizadas:" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.linhasUtilizadas} linhas" /></small>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Linhas não utilizadas:" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.linhasNaoUtilizadas} linhas" /></small>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+					    	<small><p:outputLabel value="Tempo de ligações:" /></small>
+					    </div>
+					    <div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.totalTempoLigacoes}" /></small>
+						</div>
+					</div>
+			    </fieldset>
+		    </div>
+			<div class="col-md-4">
+			    <fieldset>
+			    	<legend>Custo:</legend>
+		    		<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Custo acima do contratado:" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.custoTotalAcimaDoContratado}" title="Custo excedente.">
+								<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+							</p:outputLabel></small>
+						</div>
+					</div>
+				 
+				 	<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Custo de planos e serviços:" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.custoTotalPlanos}" title="Custo de todos os planos assinados.">
+								<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+							</p:outputLabel></small>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Custo total da fatura:" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.custoTotalFatura}" title="Total da soma das faturas e sem descontos.">
+								<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+							</p:outputLabel></small>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Outros lançamentos:" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.outrosLancamentos}" title="Diversos valores lançados na fatura.">
+								<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+							</p:outputLabel></small>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Descontos e promoções:" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.descontos}" title="Total de descontos encontrados nas faturas.">
+								<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+							</p:outputLabel></small>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<div class="col-md-4">
+				<fieldset class="empresaFieldSet">
+		    		<legend>Total:</legend>
+			    	<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Total:" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.total}" title="Valor a ser pago.">
+								<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+							</p:outputLabel></small>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Total com personalização:"
+								rendered="#{faturasBean.loginBean.config.ativo}" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.custoTotalFaturaPersonalizada}" title="Valor a ser pago."
+								rendered="#{faturasBean.loginBean.config.ativo}">
+								<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+							</p:outputLabel></small>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+							<small><p:outputLabel value="Total com personalização e descontos:"
+								rendered="#{faturasBean.loginBean.config.ativo}" /></small>
+						</div>
+						<div class="col-md-4">
+							<small><p:outputLabel value="#{empresaBean.loaderBean.empresa.custoTotalFaturaComDescontosPersonalizado}" title="Valor a ser pago."
+								rendered="#{faturasBean.loginBean.config.ativo}">
+								<f:convertNumber currencySymbol="R$" maxFractionDigits="2" type="currency" />
+							</p:outputLabel></small>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
+		

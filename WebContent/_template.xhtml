@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="style.css" />
+	
+	<link rel="shortcut icon" type="image/x-icon" href="#{resource['imagens:/favicon.ico']}" />
+	<title>Analisador de Faturas</title>
+</h:head>
+<h:body>
+	<div>
+		<h:form>
+			<div>
+			<p:menubar class="navbar navbar-default navbar-fixed-top">
+				<p:menuitem url="#" class="navbar-brand menuItem">
+					<p:graphicImage library="imagens" name="logo.png" width="160" class="logo" />
+				</p:menuitem>
+				<p:menuitem value="Dados gerais" url="empresa.xhtml" class="menuItem" rendered="#{loginBean.logado}" />
+				<p:menuitem value="Selecionar fatura" url="loader.xhtml" class="menuItem" rendered="#{loginBean.logado}" />
+				<p:submenu label="Faturas" class="menuItem" rendered="#{loginBean.logado}">
+					<p:menuitem value="Utilizadas" url="faturas.xhtml" class="small" />
+					<p:menuitem value="Não utilizadas" url="faturasNaoUtilizadas.xhtml" class="small" />
+					<p:menuitem value="Com erro" url="faturasComErro.xhtml" rendered="#{!loaderBean.empresa.totalCorreto}" style="color: red;" class="small" />
+				</p:submenu>
+				<p:menuitem value="Planilha" url="planilhaXL.xhtml" class="menuItem" rendered="#{loginBean.logado}" />
+				<p:submenu  label="Configurações" url="#" class="menuItem" rendered="#{loginBean.logado}">
+					<p:menuitem value="Alterar senha" url="alteraSenha.xhtml" class="small" />
+					<p:menuitem value="Planos" url="planos.xhtml" class="small" />
+					<p:menuitem value="Cadastrar responsáveis" url="cadastroResponsavel.xhtml" class="small" />
+					<p:menuitem value="Personalizar cobrança" url="configuracoesPersonalizadas.xhtml" class="small" />
+				</p:submenu>
+				<p:menuitem value="Login" url="login.xhtml" class="menuItem" rendered="#{!loginBean.logado}" />
+				<p:menuitem value="Ajuda" url="ajuda.xhtml" class="menuItem" />
+				<p:menuitem value="Contato" url="contato.xhtml" class="menuItem" />
+				<p:menuitem value="Sair" action="#{loginBean.efetuarLogout}" class="menuItem" rendered="#{loginBean.logado}" />
+			</p:menubar>
+			</div>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+	
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+				<p:graphicImage library="gifs" name="ajax-loader.gif" />
+			</p:dialog>
+		</h:form>
+	</div>
+	<div class="container corpo">
+		<div class="row">
+			<div class="col-sm-offset-1 col-sm-11">
+				<ui:insert name="corpo" />
+			</div>
+		</div>
+	</div>
+	<div id="rodape">
+		Copyright 2015. Todos os Direitos Reservados a Arthur de Sá B. Moreira. 
+	</div>
+</h:body>
+</html>

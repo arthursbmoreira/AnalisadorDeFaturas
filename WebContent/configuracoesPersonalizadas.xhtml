@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<h3>Configurações personalizadas</h3>
+		<h:form id="form" class="form-horizontal">
+			
+			<p:growl severity="info" showDetail="true" />
+			<p:messages severity="error" closable="true" />
+			
+			<div class="row">
+				<div class="col-sm-8">
+					<fieldset>
+						<legend>É possível ativar e desativar suas configurações personalizadas</legend>
+						<div class="row">
+							<div class="col-md-offset-2">
+						        <div class="checkbox">
+							        <h:outputText value="Ativar configurações: " />
+							        <p:selectBooleanCheckbox value="#{configuracoesPersonalizadasBean.configuracoes.ativo}">
+							            <p:ajax async="false" listener="#{configuracoesPersonalizadasBean.ativarConfiguracoes}" update=":form" />
+							        </p:selectBooleanCheckbox>
+						        </div>
+					        </div>
+				        </div>
+			        </fieldset>
+	        
+	        
+			        <fieldset>
+						<legend>Defina os valores abaixo</legend>
+						<div class="form-group primeiro-grupo">
+							<p:outputLabel for="valorBase" value="Valor base: " indicateRequired="false" class="control-label col-md-5" />
+					        <div class="col-md-6">
+						        <p:inputText id="valorBase" value="#{configuracoesPersonalizadasBean.configuracoes.valorBase}"	required="true" requiredMessage="Informe o valor base."
+					        	disabled="#{!configuracoesPersonalizadasBean.configuracoes.ativo}" converterMessage="Informe um valor monetário válido."
+					        	title="Utilize vírgula (,) para especificar os centavos." class="form-control">
+						        	<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					        	</p:inputText>
+					        	<p:tooltip for="valorBase" showEvent="focus" hideEvent="blur" />
+			        		</div>
+			        	</div>
+			        	
+			        	<div class="form-group">
+				        	<p:outputLabel for="custoMinuto" value="Custo por minuto excedente: " indicateRequired="false" class="control-label col-md-5" />
+					        <div class="col-md-6">
+						        <p:inputText id="custoMinuto" value="#{configuracoesPersonalizadasBean.configuracoes.custoMinuto}" required="true" requiredMessage="Informe o custo por minuto."
+					        	disabled="#{!configuracoesPersonalizadasBean.configuracoes.ativo}" converterMessage="Informe um valor monetário válido."
+					        	title="Utilize vírgula (,) para especificar os centavos." class="form-control">
+						        	<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					        	</p:inputText>
+					        	<p:tooltip for="custoMinuto" showEvent="focus" hideEvent="blur" />
+				        	</div>
+			        	</div>
+			        	
+			        	<div class="form-group">
+					        <p:outputLabel for="tempoLigacoes" value="Minutos por linha: " indicateRequired="false" class="control-label col-md-5" />
+					        <div class="col-md-6">
+						        <p:inputText id="tempoLigacoes" value="#{configuracoesPersonalizadasBean.configuracoes.tempoLigacoes}" required="true" requiredMessage="Informe o tempo."
+					        	disabled="#{!configuracoesPersonalizadasBean.configuracoes.ativo}" converterMessage="Informe um número válido." class="form-control">
+						        	<f:convertNumber integerOnly="true" />
+					        	</p:inputText>
+				        	</div>
+			        	</div>
+					</fieldset>
+					<div class="form-actions form-horizontal well">
+						<div class="col-sm-offset-5">
+							<p:commandButton value="Salvar" action="#{configuracoesPersonalizadasBean.salvarConfiguracoes}"
+			        			disabled="#{!configuracoesPersonalizadasBean.configuracoes.ativo}" update=":form" />
+	        			</div>
+        			</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

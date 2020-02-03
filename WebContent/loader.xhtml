@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition template="_template.xhtml">
+		<ui:define name="corpo">
+			<h:form enctype="multipart/form-data">
+				<h3>Selecionar fatura</h3>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<fieldset>
+							<legend>Selecione a fatura para análise</legend>
+							<p:messages id="errors" showDetail="true" closable="true" />
+							<p:growl id="messages" showDetail="true" />
+							<p:fileUpload fileUploadListener="#{loaderBean.upload}"	showButtons="true" label="Procurar..." 
+								auto="true" allowTypes="/(\.|\/)(pdf)$/" update="messages" invalidFileMessage="Formato de arquivo não suportado." />
+						</fieldset>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<p:outputPanel autoUpdate="true">
+							<h:outputText value="#{loaderBean.nomeArquivo}" escape="false" />
+						</p:outputPanel>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-2">
+						<p:commandButton value="Analisar" action="#{loaderBean.analisarFatura}" update="errors" />
+					</div>
+				</div>
+			</h:form>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+				<p:graphicImage library="gifs" name="ajax-loader.gif" />
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</html>

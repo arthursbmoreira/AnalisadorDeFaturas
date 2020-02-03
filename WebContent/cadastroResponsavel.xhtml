@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true"/>
+			
+			<div class="row">
+				<div class="col-md-10">
+					<h3>Cadastro de responsáveis</h3>
+					<fieldset>
+						<legend>Associe responsáveis às suas linhas</legend>
+						<p:dataTable id="faturas" var="fatura" value="#{cadastroResponsavelBean.loaderBean.listaFaturas}" rows="10" paginator="true" paginatorPosition="top" 
+						editable="true" editMode="cell" emptyMessage="Selecione uma fatura para análise."
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+						    
+						    <p:ajax event="cellEdit" listener="#{cadastroResponsavelBean.onCellEdit}" update=":form:msgs" async="false" />
+						    
+						    <p:column headerText="Número" sortBy="#{fatura.linha.numero}" width="160">
+						        <h:outputText value="#{fatura.linha.numero}" />
+						    </p:column>
+						 
+						    <p:column headerText="Responsável" sortBy="#{fatura.linha.responsavel}">
+						        <p:cellEditor>
+			                				<f:facet name="output"><h:outputText value="#{fatura.linha.responsavel}" /></f:facet>
+			               				<f:facet name="input"><p:inputText id="modelInput" value="#{fatura.linha.responsavel}" style="width:96%"/></f:facet>
+			            				</p:cellEditor>
+						    </p:column>
+						</p:dataTable>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+					        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					    </p:confirmDialog>
+						<p:commandLink value="Remover todos os responsáveis" action="#{cadastroResponsavelBean.removerResponsaveis}" >
+							<p:confirm header="Confirmação" message="Você tem certeza que deseja remover todos os responsáveis?" icon="ui-icon-alert" />
+						</p:commandLink>	
+					</fieldset>
+				</div>
+			</div>				
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

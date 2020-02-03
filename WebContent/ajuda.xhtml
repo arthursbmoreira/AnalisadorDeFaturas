@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<div class="row">
+			<div class="col-md-10">
+				<h3>Ajuda</h3>
+				<p class="lead">Nesta seção você encontrará informações sobre
+					cada uma das funcionalidades do Analisador de Faturas. Cada tópico
+					possui orientações sobre uma funcionalidade específica.</p>
+
+				<p:accordionPanel activeIndex="-1">
+					<p:tab title="Login, Cadastro e Recuperação de senha">
+						<p>As 3 funcionalidades se encontram na tela de login do
+							Analisador de Faturas e são bem simples. Para acessar o sistema é
+							necessário criar uma conta clicando no botão "Crie sua conta".
+							Após preencher os dados necessários um email de confirmação será
+							enviado para o email informado no cadastro. Você usará este mesmo
+							email para a recuperar sua senha, caso seja necessário.</p>
+					</p:tab>
+
+					<p:tab title="Sobre valores">
+						<p>O custo para utilizar o Analisador de Faturas é de 0,15% do
+							Salário Mínimo corrente por linha que o cliente possuir no plano.
+							Somente as centenas de linhas são levadas em conta. Ou seja, 150
+							linhas são consideradas como 100.</p>
+						<p>O mínimo de linhas cobrado é de 50, mesmo que o cliente
+							possua menos que 50 linhas.</p>
+					</p:tab>
+
+					<p:tab title="Sobre cobrança">
+						<p>
+							Ao criar uma conta no Analisador de Faturas, ela poderá ser
+							utilizada gratuitamente até o mês seguinte. É importante
+							ressaltar que uma conta criada no dia 31/01 será gratuita somente
+							por um dia. Ao término do período gratuito será enviado um boleto
+							de cobrança para o email cadastrado. O boleto é gerado sempre no
+							dia 1 e vence sempre no dia 10 do mês corrente. O não pagamento
+							do boleto irá bloquear a conta. Caso o cliente não tenha
+							interesse em continuar utilizando o Analisador de Faturas, basta
+							deixar que a conta seja bloqueada. Não existem implicações para o
+							cliente. Caso o cliente queira retomar o uso do Analisador de
+							Faturas, basta entrar em contato
+							<p:link href="/contato.xhtml">clicando aqui</p:link>
+							ou através do email analisadordefaturas@analisadordefaturas.com,
+							solicitando a reativação da mesma.
+						</p>
+					</p:tab>
+
+					<p:tab title="Selecionando uma fatura para análise">
+						<p>Primeiramente você deve acessar sua conta no site da sua
+							operadora e fazer o download do documento com suas faturas. O
+							documento em questão é um arquivo em formato PDF e
+							disponibilizado mensalmente.</p>
+
+						<p>Para selecionar o arquivo para análise você deve clicar no
+							botão "Procurar" e localizar o arquivo com as suas faturas no seu
+							computador. Após selecionar o arquivo, aguarde até que o mesmo
+							seja carregado completamente e clique no botão "Analisar".</p>
+					</p:tab>
+
+					<p:tab title="Faturas utilizadas">
+						<ul>
+							<li><p>As faturas utilizadas são as faturas em que foram
+									encontrados dados de uso e planos para cada um dos números na
+									listagem.</p></li>
+							<li><p>À esquerda encontram-se todos os números
+									encontrados no arquivo de faturas e considerados em uso.</p></li>
+							<li><p>À direita encontram-se os dados obtidos através
+									da análise.</p></li>
+							<li><p>Você pode cadastrar um responsável para cada
+									número clicando no link "Cadastrar" à direita. Um mesmo
+									responsável é pertmitido para diversos números.</p></li>
+							<li><p>Você pode imprimir os resultados clicando no link
+									"Imprimir" à direita</p></li>
+							<li><p>Caso você esteja usando a opcção de
+									personalização de cobranças, uma aba de planos será visível.
+									Nela você pode visualizar todos os planos associados cada uma
+									de suas linhas.</p></li>
+						</ul>
+					</p:tab>
+
+					<p:tab title="Faturas não utilizadas">
+						<ul>
+							<li><p>As faturas não utilizadas são as faturas em que
+									não foram encontrados dados de uso ou planos para cada um dos
+									números na listagem.</p></li>
+							<li><p>À esquerda encontram-se todos os números
+									encontrados no arquivo de faturas e considerados sem uso.</p></li>
+							<li><p>À direita encontra-se o total obtido através da
+									análise.</p></li>
+							<li><p>Embora um número não possua uso ou planos, exsite
+									a possibilidade de que ele esteja em uso, portanto para que um
+									número passe para a listagem de números em uso basta cadastrar
+									um responsável para o mesmo. A explicação para isso é de que um
+									número que possua um responsável não pode estar sem uso.</p></li>
+							<li><p>Para cadastrar um responsável para um número sem
+									uso, clique no link "Cadastrar responsável" abaixo dos totais
+									obtidos e ele será automaticamente enviado para a listagem de
+									números em uso.</p></li>
+						</ul>
+					</p:tab>
+
+					<p:tab title="Faturas com erro">
+						<ul>
+							<li><p>Este é um menu especial que só é visível quando o
+									sistema encontra um erro na sua própria análise.</p></li>
+							<li><p>À esquerda encontram-se todos os números
+									encontrados no arquivo de faturas em que o sistema considera
+									haver erro de análise.</p></li>
+							<li><p>À direita encontra-se o total obtido através da
+									análise.</p></li>
+							<li><p>A listagem de números com erro é exibida para que
+									o usuário possa verificar manualmente os resultados obtidos
+									nestes números.</p></li>
+							<li><p>Se este menu estiver visível e a lista não
+									estiver presente, o erro de análise é referente à soma dos
+									totais das faturas e não a um número específico.</p></li>
+							<li><p>
+									Caso este menu esteja visível, independente da causa do
+									problema de análise, nós solicitamos ao usuário que entre em
+									contato conosco imediatamente
+									<p:link href="/contato.xhtml">clicando aqui</p:link>
+									ou através do email analisadordefaturas@analisadordefaturas.com
+									e nos envie o arquivo com as faturas para que nós possamos
+									corrigir o problema. Obviamente, o envio do arquivo é opcional
+									e a decisão é do cliente.
+								</p></li>
+						</ul>
+					</p:tab>
+
+					<p:tab title="Planilha">
+						<p>Esta funcionalidade permite a criação de planilhas em
+							excel. O usuário pode selecionar apenas as colunas que deseja em
+							sua planilha através das caixas de seleção no topo. Selecionar a
+							ordem que deseja através do cabeçalho de cada coluna na tebela
+							abaixo. E fazer o download da planilha clicando no botão "Gerar
+							planliha" abaixo da tabela.</p>
+					</p:tab>
+
+					<p:tab title="Cadastrar responsáveis">
+						<p>Esta funcionalidade permite cadastrar responsáveis e
+							removê-los para cada número. Basta clicar na célula ao lado do
+							número que irá receber um responsável que o campo automaticamente
+							mudar para um campo de texto. Depois de preencher o campo aprte
+							Enter para finalizar ou Tab, caso queira passar para a célula
+							imediatamente abaixo. Para remover um responsável, clique na
+							célula desejada, apague no nome do resposável e aperte Enter.</p>
+						<p>Caso deseje remover todos os responsáveis, clique no link
+							"Remover todos os responsáveis" abaixo da tabela e confirme.</p>
+					</p:tab>
+
+					<p:tab title="Cadastrar planos">
+						<p>Esta funcionalidade permite cadastrar planos e associá-los
+							a cada número em sua fatura. Na primeira aba é possível cadastrar
+							e excluir os planos. Não é possível excluir um plano que esteja
+							associado a algum número. Na segunda aba é possível associar os
+							planos aos números. Basta selecionar o plano e o número, e em
+							seguida clicar no botão associar. Os valores dos planos serão
+							somados imediatamente.</p>
+					</p:tab>
+
+					<p:tab title="Personalizar cobrança">
+						<p>A personalização de cobrança é uma funcionalidade para
+							organizações que cobram taxas pelos uso dos números do seu plano
+							empresarial. É possível ativar e desativar as configurações
+							personalizadas através da caixa de seleção no topo.</p>
+						<p>Os planos assinados para cada número não são afetados pelas
+							configurações personalizadas. Assim como as mensagens enviadas e
+							o uso de internet. Somente as ligações sofrem alterações.</p>
+
+						<p>Ao ativar as configurações personalizadas, é necessário
+							definir os seguinte valores:</p>
+						<ul>
+							<li><p>Valor base: O valor base é o valor mínimo que
+									deverá ser pago por cada número. Se as configurações
+									personalizadas estiverem ativadas ele é exibido nos totais no
+									menu de faturas em uso. Ao usar a função de impressão ele é
+									somado ao total de serviços contratados.</p></li>
+							<li><p>Minutos por linha: Os minutos por linha são a
+									quantidade de minutos que cada número pode fazer em ligações
+									locais. Não estão incluídas ligações de longa distância, para
+									serviços de terceiros, para ou no exterior, etc.</p></li>
+							<li><p>Custo por minuto excedente: O custo por minuto
+									excedente é o valor que deverá ser pago por cada minuto de
+									ligação acima dos Minutos por linha definidos. Só são
+									considerados minutos inteiros, portanto 1 minutos e 59 segundos
+									serão contabilizados como 1 minuto.</p></li>
+						</ul>
+
+						<p>Uma vez ativadas, as configurações personalizadas irão
+							alterar alguns aspectos de outras funcionalidades, substituindo
+							alguns totalizadores e inserindo alguns novos.</p>
+						<ul>
+							<li><p>Dados gerais: No menu de dados gerais é incluído
+									o total com os valores personalizados.</p></li>
+							<li><p>Faturas em uso: No menu de faturas em uso, todas
+									os tipos de ligação que são incluídos nos minutos por linha são
+									agrupados em um único item, assim como o seu total. Além disso
+									o valor base é incluído nos totalizadores.</p></li>
+							<li><p>Planilha: No menu de planilhas, as colunas
+									referentes à ligações incluídas nos Minutos por linha são
+									agrupadas de maneira similar ao menu de faturas em uso. E uma
+									coluna com o total de ligações não incluídas nos Minutos por
+									linha é adicionada.</p></li>
+
+						</ul>
+					</p:tab>
+				</p:accordionPanel>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

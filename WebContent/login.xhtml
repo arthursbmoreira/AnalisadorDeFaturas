@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="corpo">
+		<f:metadata>
+            <f:event type="preRenderView" listener="#{loginBean.initialize()}"></f:event>
+        </f:metadata>
+		<h:form class="form-horizontal">
+			<div class="row">
+				<div class="col-sm-7">
+					<fieldset>
+						<legend>Entrar</legend>
+						<p:messages id="errosLogin" severity="error" closable="true" showSummary="true" />
+						
+						<div class="form-group primeiro-grupo">
+							<p:outputLabel value="Email:" class="control-label col-sm-offset-1 col-md-2" />
+							<div class="col-md-6">
+								<p:inputText id ="login" value="#{loginBean.cliente.eMail}" required="true" requiredMessage="Preencha o campo login." class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<p:outputLabel value="Senha:" class="control-label col-sm-offset-1 col-md-2" />
+							<div class="col-md-6">
+								<p:password id="senha" value="#{loginBean.cliente.senha}" required="true" requiredMessage="Preencha o campo senha." class="form-control" />
+								<small><p:commandLink value="Esqueceu sua senha?" onclick="PF('recuperacao').show();" /></small>
+							</div>
+						</div>
+					</fieldset>
+					<div class="form-actions form-horizontal well">
+						<div class="col-sm-offset-3">
+							<p:commandButton action="#{loginBean.efetuarLogin}" value="Entrar" update="errosLogin" />
+							<p:commandButton value="Crie sua conta" onclick="PF('cadastro').show();" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+
+		<h:form id="cadastro" class="form-horizontal">
+			<p:dialog showHeader="false" widgetVar="cadastro" resizable="false" width="600" modal="true" showEffect="fade" hideEffect="fade" closeOnEscape="true">
+
+				<p:messages id="errosCadastro" severity="error" closable="true" showSummary="true" />
+				<p:growl id="infoCadastro" severity="info" closable="true" showDetail="true" showSummary="true" />
+
+				<div id="row">
+					<div class="col-sm-12">
+						<fieldset>
+							<legend>Cadastro</legend>
+							
+							<div class="form-group">
+								<p:outputLabel value="Nome/Empresa:" class="control-label col-md-4" />
+	
+								<div class="col-md-6">
+									<p:inputText id="nome" value="#{cadastroClienteBean.cliente.nome}" required="true" requiredMessage="Preencha o campo nome/empresa."
+										title="O nome utilizado pode ser um nome de usuário ou da empresa." class="form-control" />
+									<p:tooltip for="nome" showEvent="focus" hideEvent="blur" />
+								</div>
+							</div>
+							<div class="form-group">
+								<p:outputLabel value="CPF/CNPJ:" class="control-label col-md-4" />
+	
+								<div class="col-md-6">
+									<p:inputText id="cpfcnpj" value="#{cadastroClienteBean.cliente.cpfCnpj}" required="true" requiredMessage="Preencha o campo cpf/cnpj."
+										title="Esta informação é utilizada para gerar os boletos de cobrança." class="form-control" />
+									<p:tooltip for="cpfcnpj" showEvent="focus" hideEvent="blur" />
+								</div>
+							</div>
+							<div class="form-group">
+								<p:outputLabel value="Quantidade de linhas: " class="control-label col-md-4" />
+
+								<div class="col-md-6">
+									<p:inputText id="numLinhas"	value="#{cadastroClienteBean.cliente.quantidadeLinhas}" required="true"
+										requiredMessage="Preencha o campo quantidade de linhas."
+										converterMessage="A quantidade de linhas deve ser um número inteiro maior que 0."
+										title="Quantidade de linhas no seu plano." class="form-control">
+										<f:convertNumber integerOnly="true" />
+									</p:inputText>
+									<p:tooltip for="numLinhas" showEvent="focus" hideEvent="blur" />
+								</div>
+							</div>
+							<div class="form-group">
+								<p:outputLabel value="Email:" class="control-label col-md-4" />
+								
+								<div class="col-md-6">
+									<p:inputText value="#{cadastroClienteBean.cliente.eMail}" required="true" requiredMessage="Preencha o campo email."
+										validatorMessage="Formato de email inválido." class="form-control">
+										<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+									</p:inputText>
+								</div>
+							</div>
+							<div class="form-group">
+								<p:outputLabel value="Confirme seu Email:" class="control-label col-md-4" />
+									
+								<div class="col-md-6">
+									<p:inputText value="#{cadastroClienteBean.confirmaEmail}" required="true" requiredMessage="Preencha o campo de confirmação de email."
+										class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<p:outputLabel value="Senha:" class="control-label col-md-4" />
+								
+								<div class="col-md-6">
+									<p:password value="#{cadastroClienteBean.cliente.senha}" required="true" requiredMessage="Preencha o campo senha." 
+										class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<p:outputLabel value="Confirme a senha:" class="control-label col-md-4" />
+								
+								<div class="col-md-6">
+									<p:password value="#{cadastroClienteBean.confirmaSenha}" required="true" requiredMessage="Preencha o campo de confirmação de senha."
+										class="form-control" />
+								</div>
+							</div>
+						</fieldset>
+						<div class="form-actions form-horizontal well">
+							<div class="col-sm-offset-4">
+								<p:commandButton value="Cadastrar"	actionListener="#{cadastroClienteBean.cadastrarCliente}" update="errosCadastro, infoCadastro" />
+								<p:commandButton value="Cancelar" onclick="PF('cadastro').hide();" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</p:dialog>
+		</h:form>
+
+		<h:form id="recuperacaoDeSenha" class="form-horizontal">
+			<p:dialog showHeader="false" widgetVar="recuperacao" resizable="false" width="400" modal="true" showEffect="fade" hideEffect="fade" closeOnEscape="true">
+			
+				<p:messages id="errosRecuperacao" severity="error" closable="true" showSummary="true" />
+				<p:growl id="infoRecuperacao" severity="info" closable="true" showDetail="true" showSummary="true" />
+				
+				<div id="row">
+					<div class="col-sm-12">
+						<fieldset>
+							<legend>Recuperação de senha</legend>
+							
+							<div class="form-group primeiro-grupo">
+								<p:outputLabel value="Email:" class="control-label col-md-4" />
+	
+								<div class="col-md-8">
+									<p:inputText value="#{recuperaSenhaBean.cliente.eMail}" required="true" requiredMessage="Preencha o campo email."
+										class="form-control" />
+								</div>
+							</div>
+						</fieldset>
+						<div class="form-actions form-horizontal well">
+							<div class="col-md-offset-4">
+								<p:commandButton value="Enviar" actionListener="#{recuperaSenhaBean.enviarNovaSenha}" update="errosRecuperacao, infoRecuperacao" />
+						    	<p:commandButton value="Cancelar" onclick="PF('recuperacao').hide();" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
